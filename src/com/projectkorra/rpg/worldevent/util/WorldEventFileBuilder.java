@@ -18,7 +18,7 @@ public class WorldEventFileBuilder {
 	private List<String> attributes;
 	private List<String> elements;
 	private int frequency;
-	private double modifier;
+	private long modifier;
 	private long duration;
 	private String time;
 	private String startMessage;
@@ -35,7 +35,7 @@ public class WorldEventFileBuilder {
 		this.aliases = new ArrayList<>();
 		this.attributes = new ArrayList<>();
 		this.frequency = 3;
-		this.modifier = 2.0;
+		this.modifier = 2;
 		this.duration = 0;
 		this.time = "BOTH";
 		this.startMessage = "GenericStartMessage";
@@ -132,7 +132,7 @@ public class WorldEventFileBuilder {
 		return this;
 	}
 
-	public WorldEventFileBuilder modifier(double modifier) {
+	public WorldEventFileBuilder modifier(long modifier) {
 		this.modifier = modifier;
 		return this;
 	}

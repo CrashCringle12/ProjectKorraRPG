@@ -81,7 +81,7 @@ public interface RPGWorldEvent {
 	 * @return numerical modifier for bending abilities of the WorldEvent's
 	 *         element
 	 */
-	public double getModifier();
+	public long getModifier();
 	
 	/**
 	 * Returns how long the event lasts

@@ -26,7 +26,7 @@ public class WorldEvent implements RPGWorldEvent {
 	private Set<Element> elements;
 	private Time time;
 	private int frequency;
-	private double modifier;
+	private long modifier;
 	private long duration;
 	private String startMessage;
 	private String endMessage;
@@ -40,7 +40,7 @@ public class WorldEvent implements RPGWorldEvent {
 		this(wFile.getName(), wFile.getDescription(), wFile.getAliases(), wFile.getAttributes(), wFile.getElements(), wFile.getTime(), wFile.getFrequency(), wFile.getModifier(), wFile.getDuration(), wFile.getStartMessage(), wFile.getEndMessage(), wFile.getDarkenSky(), wFile.getCreateFog(), wFile.getEventBlacklist(), wFile.getTextColor(), wFile.getBarColor());
 	}
 
-	public WorldEvent(String name, String description, List<String> aliases, List<String> attributes, Element[] elements, Time time, int frequency, double modifier, long duration, String startMessage, String endMessage, boolean darkenSky, boolean createFog, List<String> eventBlacklist, ChatColor text, BarColor bar) {
+	public WorldEvent(String name, String description, List<String> aliases, List<String> attributes, Element[] elements, Time time, int frequency, long modifier, long duration, String startMessage, String endMessage, boolean darkenSky, boolean createFog, List<String> eventBlacklist, ChatColor text, BarColor bar) {
 		this.name = name;
 		this.description = description;
 		this.aliases = aliases;
@@ -101,7 +101,7 @@ public class WorldEvent implements RPGWorldEvent {
 	}
 
 	@Override
-	public double getModifier() {
+	public long getModifier() {
 		return modifier;
 	}
 	

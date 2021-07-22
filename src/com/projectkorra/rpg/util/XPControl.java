@@ -2,7 +2,7 @@ package com.projectkorra.rpg.util;
 
 public class XPControl {
 
-	private static final int MAX_LEVEL = 40;
+	private static final int MAX_LEVEL = 60;
 	private static final int[] XP_LEVEL = loadXPPerLevel(); // the required xp at the level matching the index to level up
 	
 	/**
@@ -42,7 +42,7 @@ public class XPControl {
 		xp_level[0] = 0;
 		
 		for (int i = 1; i < MAX_LEVEL; i++) {
-			xp_level[i] = ((int) Math.pow(Math.E, 0.125 * i)) * 100 + xp_level[i - 1];
+			xp_level[i] = ((int) Math.pow(Math.E, 0.425 * i)) * 1000 + xp_level[i - 1];
 		}
 		
 		return xp_level;

@@ -106,8 +106,8 @@ public class WorldEventFile {
 		return config.getInt("frequency");
 	}
 
-	public double getModifier() {
-		return config.getDouble("modifier");
+	public long getModifier() {
+		return config.getLong("modifier");
 	}
 
 	public String getName() {

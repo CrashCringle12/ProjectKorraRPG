@@ -140,6 +140,7 @@ public class RPGListener implements Listener {
 		
 		if (player != null) {
 			if (!player.hasUnlocked(ability) && !((ability instanceof PassiveAbility) || ability.isHiddenAbility())) {
+				ability.getPlayer().sendMessage("§cYou have not unlocked this ability ("+ability.getName()+"§c)");
 				event.setCancelled(true);
 				return;
 			}
@@ -370,6 +371,8 @@ public class RPGListener implements Listener {
 		}
 		
 		if (event.isBinding() && !player.hasUnlocked(ability)) {
+			//Let the player know they don't have the ability
+			event.getPlayer().sendMessage("§cYou have not unlocked this ability ("+ability.getName()+"§c)");
 			event.setCancelled(true);
 		}
 	}

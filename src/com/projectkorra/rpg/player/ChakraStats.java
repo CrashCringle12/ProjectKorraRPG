@@ -7,13 +7,13 @@ import org.bukkit.ChatColor;
 
 public class ChakraStats {
 	
-	private static final int MAX_POINTS = 10;
+	private static final int MAX_POINTS = 50;
 
 	public static enum Chakra {
 		AIR (0.01, ChatColor.GRAY, "increases bending range, 1% per point"),
-		FIRE (0.03, ChatColor.RED, "increases bending damage, 3% per point"),
+		FIRE (0.05, ChatColor.RED, "increases bending damage, 5% per point"),
 		EARTH (-0.03, ChatColor.GREEN, "decreases bending damage taken, 3% per point"),
-		WATER (-0.02, ChatColor.AQUA, "gives cooldown reduction, 2% per point"),
+		WATER (-0.01, ChatColor.AQUA, "gives cooldown reduction, 1% per point"),
 		LIGHT (0.02, ChatColor.YELLOW, "enhances bending effects, 2% per point");
 		
 		private double percent;
