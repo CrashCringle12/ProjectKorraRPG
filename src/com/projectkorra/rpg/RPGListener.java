@@ -472,7 +472,9 @@ public class RPGListener implements Listener {
 		ProjectKorraRPG.getLog().info("Saved " + event.getPlayer().getName() + " (" + event.getPlayer().getUniqueId().toString() + ")");
 		
 		if (player != null) {
-			player.save(true);
+			Bukkit.getScheduler().runTaskAsynchronously(ProjectKorraRPG.getPlugin(), () -> {
+				player.save(true);
+			});
 		}
 	}
 
