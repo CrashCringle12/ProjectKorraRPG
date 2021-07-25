@@ -434,7 +434,7 @@ public class RPGMethods {
 			return null;
 		}
 		
-		CoreAbility ability = selection.get(rand.nextInt(selection.size()));
+		CoreAbility ability = selection.get((int) (Math.random()*(selection.size()-1))+1);
 		
 		return new AbilityScroll(ability);
 	}
@@ -465,7 +465,7 @@ public class RPGMethods {
 		int chance = ConfigManager.getConfig().getInt("MobDrops." + type.toString() + ".RandomChance");
 		List<String> list = ConfigManager.getConfig().getStringList("MobDrops." + type.toString() + ".RandomDropTiers");
 		
-		if (!list.isEmpty() && chance > rand.nextInt(100)) {
+		if (!list.isEmpty() && (Math.random() * 150 < chance)) {
 			AbilityTier[] tiers = list.stream().map(String::toUpperCase).map(AbilityTier::valueOf).toArray(AbilityTier[]::new);
 			scrolls.add(getRandomScroll(tiers));
 		}
