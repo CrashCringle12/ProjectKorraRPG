@@ -10,6 +10,10 @@
   	  <id>spigot-repo</id>
       <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
   	</repository>
+      <repository>
+          <id>jitpack.io</id>
+          <url>https://jitpack.io</url>
+      </repository>
   </repositories>
   
   <dependencies>
@@ -19,12 +23,11 @@
 	  <version>1.17.1-R0.1-SNAPSHOT</version>
 	  <scope>provided</scope>
 	</dependency>
-	
+
 	<dependency>
-	  <groupId>com.projectkorra</groupId>
-	  <artifactId>projectkorra</artifactId>
-	  <version>1.9.2</version>
-	  <scope>provided</scope>
+        <groupId>com.github.ProjectKorra</groupId>
+        <artifactId>ProjectKorra</artifactId>
+        <version>1.9.2</version>
 	</dependency>
   </dependencies>
   
