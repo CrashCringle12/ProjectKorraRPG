@@ -129,8 +129,14 @@ public class RPGPlayer {
 	}
 	
 	public boolean hasUnlocked(CoreAbility ability) {
+		boolean isAvatar = true;
+		for (Element e : Element.getMainElements()) {
+			if (!bPlayer.hasElement(e)) {
+				isAvatar = false;
+			}
+		}
 		if (ability.getElement() == Element.AVATAR) {
-			return RPGMethods.isCurrentAvatar(bPlayer.getUUID());
+			return RPGMethods.isCurrentAvatar(bPlayer.getUUID()) || isAvatar;
 		}
 		
 		return unlocked.contains(ability.getName().toLowerCase());

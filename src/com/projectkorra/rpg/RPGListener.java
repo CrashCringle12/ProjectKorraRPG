@@ -279,8 +279,14 @@ public class RPGListener implements Listener {
 		if (ability == null) {
 			return;
 		}
+		boolean isAvatar = true;
+		for (Element e : Element.getMainElements()) {
+			if (!player.getBendingPlayer().hasElement(e)) {
+				isAvatar = false;
+			}
+		}
 		
-		if ((ability.getElement() == Element.AVATAR && !RPGMethods.isCurrentAvatar(event.getPlayer().getUniqueId())) || !player.getBendingPlayer().hasElement(ability.getElement())) {
+		if ((ability.getElement() == Element.AVATAR && (!isAvatar || !RPGMethods.isCurrentAvatar(event.getPlayer().getUniqueId()))) || !player.getBendingPlayer().hasElement(ability.getElement())) {
 			ActionBar.sendActionBar(ChatColor.RED + "!> You don't have that ability's element <!", event.getPlayer());
 			return;
 		}

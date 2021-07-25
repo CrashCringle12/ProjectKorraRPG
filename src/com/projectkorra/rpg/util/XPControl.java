@@ -42,7 +42,7 @@ public class XPControl {
 		xp_level[0] = 0;
 		
 		for (int i = 1; i < MAX_LEVEL; i++) {
-			xp_level[i] = ((int) Math.pow(Math.E, 0.425 * i)) * 1000 + xp_level[i - 1];
+			xp_level[i] = ((int) Math.pow(Math.E, 0.225 * i)) * 200 + xp_level[i - 1];
 		}
 		
 		return xp_level;
