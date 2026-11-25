@@ -1,0 +1,85 @@
+name: Human Authors Check
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, ready_for_review, edited]
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  check-author:
+    name: Human Author Required
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR and commit authors for AI.
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          BLOCKED_PATTERN='(^|[^a-z0-9])(claude|copilot)([^a-z0-9]|$)'
+          FAILED=false
+
+          is_blocked() {
+            echo "$1" | grep -Eiq "$BLOCKED_PATTERN"
+          }
+
+          # Check the pull request author
+          if is_blocked "$PR_AUTHOR"; then
+            echo "::error::Blocked PR author: $PR_AUTHOR"
+            FAILED=true
+          fi
+
+          # Retrieve all commits associated with the PR
+          COMMITS=$(gh api --paginate --slurp \
+            "repos/$REPO/pulls/$PR_NUMBER/commits?per_page=100" \
+            | jq 'add')
+
+          EXPECTED=$(gh api "repos/$REPO/pulls/$PR_NUMBER" \
+            --jq '.commits')
+
+          ACTUAL=$(echo "$COMMITS" | jq 'length')
+
+          if [[ "$EXPECTED" != "$ACTUAL" ]]; then
+            echo "::error::Unable to retrieve all PR commits."
+            exit 1
+          fi
+
+          echo "Checking $ACTUAL commits..."
+
+          # Check each commit
+          while IFS= read -r COMMIT; do
+            SHA=$(echo "$COMMIT" | jq -r '.sha')
+            LOGIN=$(echo "$COMMIT" | jq -r '.author.login // ""')
+            NAME=$(echo "$COMMIT" | jq -r '.commit.author.name // ""')
+            EMAIL=$(echo "$COMMIT" | jq -r '.commit.author.email // ""')
+            MESSAGE=$(echo "$COMMIT" | jq -r '.commit.message // ""')
+
+            echo "Checking commit ${SHA:0:7}: $NAME ($LOGIN)"
+
+            # Check GitHub username, Git author name and email
+            if is_blocked "$LOGIN $NAME $EMAIL"; then
+              echo "::error::Commit ${SHA:0:7} was blocked as it was authored by AI"
+              FAILED=true
+            fi
+
+            # Check co-author attribution
+            COAUTHORS=$(echo "$MESSAGE" \
+              | grep -iE '^Co-authored-by:' || true)
+
+            if is_blocked "$COAUTHORS"; then
+              echo "::error::Commit ${SHA:0:7} was co-authored by an AI"
+              FAILED=true
+            fi
+
+          done < <(echo "$COMMITS" | jq -c '.[]')
+
+          if [[ "$FAILED" == "true" ]]; then
+            echo "::error::AI authors or co-authors were detected in this pull request."
+            exit 1
+          fi
+
+          echo "All author checks passed."
